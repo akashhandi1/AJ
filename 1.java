@@ -76,12 +76,12 @@ public class Main
 	                        amiss.removeLast();
 	                    }
 	                    amiss.addFirst(ob);
-	                    System.out.println("************MissedCallDetails********************");
+	                    System.out.println("*MissedCallDetails*");
 	                    Iterator<MissedCallDetails> it = amiss.iterator();
                         while(it.hasNext()) 
                         {
                                 MissedCallDetails i = it.next();
-                                System.out.println("----------------------------");
+                                System.out.println("-------------");
                                 i.display();
                         }
                         break;
@@ -112,12 +112,12 @@ public class Main
                     
                     
                 case 3:
-                        System.out.println("............MissedCallDetails...............");
+                        System.out.println("...MissedCallDetails...");
                         Iterator<MissedCallDetails> it1 = amiss.iterator();
                         while(it1.hasNext()) 
                         {
                                 MissedCallDetails i = it1.next();
-                                System.out.println("----------------------------");
+                                System.out.println("------");
                                 i.display();
                         }
                         break;
