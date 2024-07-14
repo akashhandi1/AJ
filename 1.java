@@ -1,66 +1,133 @@
 import java.util.*;
-public class Caller {
-	String name;
-	Float telNo;
-	Calendar d;
-	Caller(String temp, Float t,Calendar p)
-	{
-		if(temp.equals(""))
-			name="Private Number";
-		else
-			name=temp;
-		telNo=t;
-		d=p;
-		
-	}
-	public void display()
-	{
-		System.out.println("Name:"+name+"TelNo:"+telNo+"Date:"+d.getTime());
-	}
+class DataBaseCallers
+{
+    public static HashMap<Long,String> contacts=new HashMap<Long,String>();
+    static void createEntry()
+    {
+        contacts.put(new Long("9900726035"),"Ronaldo");
+        contacts.put(new Long("9741278570"),"Messi");
+        contacts.put(new Long("7255554444"),"Deepika");
+        contacts.put(new Long("9700001111"),"Kaka");
+    }
+    static void display()
+    {
+        System.out.println("*DataBaseCallers*");
+        System.out.println(contacts);
+        
+    }
 }
 
-import java.util.*;
-public class DateCompare implements Comparator<Caller>{
-	public int compare(Caller x,Caller y)
-	{
-		return (int)x.d.compareTo(y.d);
-	}
-
+class MissedCallDetails
+{
+    Calendar cal;
+    Long telno;
+    String name;
+    MissedCallDetails(Calendar x,Long y,String z)
+    {
+        cal=x;
+        telno=y;
+        name=z;
+    }
+    void display()
+    {
+        System.out.println("Current time ="+cal.getTime());
+        System.out.println("Telephone Number="+telno);
+        System.out.println("Name is="+name);
+    }
 }
 
-import java.util.*;
-public class Main {
-	public static void main(String[] args)
+public class Main
+{
+    static LinkedList<MissedCallDetails> amiss=new LinkedList<MissedCallDetails>();
+	public static void main(String[] args) 
 	{
-		Calendar d=Calendar.getInstance();
-		d.set(Calendar.HOUR, 10);
-	    d.set(Calendar.MINUTE, 29);
-	    d.set(Calendar.SECOND, 22);
-	    Calendar e=Calendar.getInstance();
-		e.set(Calendar.HOUR, 4);
-	    e.set(Calendar.MINUTE, 28);
-	    e.set(Calendar.SECOND, 20);
-	    Calendar f=Calendar.getInstance();
-		f.set(Calendar.HOUR, 11);
-	    f.set(Calendar.MINUTE, 26);
-	    f.set(Calendar.SECOND, 20);
-	    
-		Caller c1=new Caller("Ananya",9005674f,d);
-		Caller c2=new Caller("Bavya",98765434f,e);
-		Caller c3=new Caller("",9006739f,f);
+	    //MissedCallDetails ob=new MissedCallDetails(Calendar.getInstance(),new Long("9741278570"),"Ronaldo");
+	    //ob.display();
+	    DataBaseCallers.createEntry();
+	    DataBaseCallers.display();
+	     
+	    while(true)
+	    {   
+	        Scanner read=new Scanner(System.in);
+	        System.out.println("Enter ur a Choice");
+	        System.out.println("1: add miss call \n2: Delete based on number \n3: display \n4: exit");
+	        int ch=read.nextInt();
+	        switch(ch)
+	        {
+	            case 1:
+	                    System.out.println("Enter the missed call telephone number details");
+	                    Calendar cal=Calendar.getInstance();
+	                    System.out.println("Enter telephone number=");
+	                    Long telnox=read.nextLong();
+	                    String name;
+	                    if(DataBaseCallers.contacts.containsKey(telnox))
+	                    {
+	                        name=DataBaseCallers.contacts.get(telnox);
+	                    }
+	                    else
+	                    {
+	                        name="Private caller";
+	                    }
+	                    //System.out.println("Enter caller name=");
+	                    //String name=read.next();
+	                    MissedCallDetails ob=new MissedCallDetails(cal,telnox,name);
+	                    if(amiss.size()==4)
+	                    {
+	                        amiss.removeLast();
+	                    }
+	                    amiss.addFirst(ob);
+	                    System.out.println("************MissedCallDetails********************");
+	                    Iterator<MissedCallDetails> it = amiss.iterator();
+                        while(it.hasNext()) 
+                        {
+                                MissedCallDetails i = it.next();
+                                System.out.println("----------------------------");
+                                i.display();
+                        }
+                        break;
+                case 2: 
+                        System.out.println("Enter number Delete in MissedCallDetails");
+                        Long phonenum=read.nextLong();
+                        Iterator <MissedCallDetails> it2= amiss.iterator();
+                        boolean flag=false;
+                        while(it2.hasNext())
+                        {
+                              MissedCallDetails ob2=it2.next();
+                              if(ob2.telno==phonenum)
+                              {
+                                  flag=true;
+                                  amiss.remove(ob2);
+                                  break;
+                              }
+                        }
+                        if(flag==true)
+                        {
+                            System.out.println("phone number deleted");
+                        }
+                        else
+                        {
+                            System.out.println("phone number not exists list");
+                        }
+                        break;
+                    
+                    
+                case 3:
+                        System.out.println("............MissedCallDetails...............");
+                        Iterator<MissedCallDetails> it1 = amiss.iterator();
+                        while(it1.hasNext()) 
+                        {
+                                MissedCallDetails i = it1.next();
+                                System.out.println("----------------------------");
+                                i.display();
+                        }
+                        break;
+                
+                default:
+                            return;
+      
+    
+	        }
+	    }
 		
-		c1.display();
-		c2.display();
-		c3.display();
-		ArrayList<Caller> list=new ArrayList<Caller>();
-		list.add(c1);
-		list.add(c2);
-		list.add(c3);
-		System.out.println("Sorting in new list of callers");
-		ArrayList<Caller> sort_list=new ArrayList<Caller>(list);
-		Collections.sort(sort_list,new DateCompare());
-		for(Caller samp:sort_list)
-			samp.display();
-	}
-
+	} 
 }
