@@ -1,128 +1,160 @@
-package ex3;
-import java.util.*;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.JOptionPane;
-public class Student_Mgmnt implements ActionListener{
-	ArrayList<Student> arr=new ArrayList<Student>();
-	static JFrame jf;
-	JPanel jp;
-	JLabel jl1,jl2,jl3,jl4,jl5,jl6,jl7,jl8,jl9;
-	JTextField name,usn,address,age,sgpa1,sgpa2,sgpa3,sgpa4,category;
-	JButton compute,done,ADDSgpa;
-	JTextArea jt;
-	double cgpa;double a[]=new double[4];
-	Student_Mgmnt()
-	{
-		jf=new JFrame();
-		jp=new JPanel();
-		jl1=new JLabel("Enter name");
-		jl2=new JLabel("Enter usn");
-		jl3=new JLabel("Enter address");
-		jl4=new JLabel("Enter age");
-		jl5=new JLabel("Enter sgpa1");
-		jl6=new JLabel("Enter sgpa2");
-		jl7=new JLabel("Enter sgpa3");
-		jl8=new JLabel("Enter sgpa4");
-		jl9=new JLabel("Enter category");
-		name=new JTextField(20);
-		usn=new JTextField(20);
-		address=new JTextField(20);
-		age=new JTextField(20);
-		sgpa1=new JTextField(20);
-		sgpa2=new JTextField(20);
-		sgpa3=new JTextField(20);
-		sgpa4=new JTextField(20);
-		category=new JTextField(20);
-		jt=new JTextArea(3,50);
-		compute=new JButton("Compute");
-		done=new JButton("Display");
-		ADDSgpa=new JButton("SGPA compute");
-		
-		jp.add(jl1);jp.add(name);
-		jp.add(jl2);jp.add(usn);
-		jp.add(jl3);jp.add(address);
-		jp.add(jl4);jp.add(age);
-		jp.add(jl5);jp.add(sgpa1);
-		jp.add(jl6);jp.add(sgpa2);
-		jp.add(jl7);jp.add(sgpa3);
-		jp.add(jl8);jp.add(sgpa4);
-		jp.add(jl9);jp.add(category);
-		jp.add(jt);
-		jp.add(compute);
-		jp.add(done);
-		jp.add(ADDSgpa);
-		jf.add(jp);	
-		done.addActionListener(this);
-		compute.addActionListener(this);
-	}
-	public void actionPerformed(ActionEvent ae)
-	{
-		
-		if(ae.getSource()==compute)
-		{
-			double sum=0.0;
-			a[0]=Double.parseDouble(sgpa1.getText());
-			a[1]=Double.parseDouble(sgpa2.getText());
-			a[2]=Double.parseDouble(sgpa3.getText());
-			a[3]=Double.parseDouble(sgpa4.getText());
-			
-			for(int i=0;i<4;i++)
-			{
-				sum=sum+a[i];
-			}
-			cgpa=(double)sum;
-			String result="Final cgpa is:"+cgpa;
-			JOptionPane.showMessageDialog(null,result);
-		}
-		if(ae.getSource()==done)
-		{
-			String name1=name.getText();
-			String address1=address.getText();
-			String usn1=usn.getText();
-			String age1=age.getText();
-			int a=Integer.parseInt(age1);
-			if(a<18 || a>23)
-			{
-				JOptionPane.showMessageDialog(null, "Age invalid");
-			}
-			if(name1.isEmpty()||address1.isEmpty()||usn1.isEmpty()||age1.isEmpty())
-			{
-				JOptionPane.showMessageDialog(null, "Some details are not filled");
-			}
-			Student s1=new Student(name1,address1,usn1,a,cgpa);
-			arr.add(s1);
-			for(Student c :arr) 
-			{
-				jt.append(c.name+" "+c.usn+" "+c.address+" "+c.age+" "+c.marks);
-			}
-		}
-	}
-	public static void main(String[] args)
-	{
-		Student_Mgmnt sm=new Student_Mgmnt();
-		jf.setVisible(true);
-		jf.setSize(300,400);
-		jf.setLayout(new GridLayout(4,1));
-	}
+import java.awt.GridLayout;
+import java.awt.LayoutManager;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
+import javax.swing.*;
+
+class STUDENT1
+{
+	String name,usn,address,category;
+	int age;
+	double sg1,sg2,sg3,sg4,sg5,sg6,sg7,sg8,cgpa;
+	
+	STUDENT1(String a,String b,String c,String d,int e,double s1,double s2,double s3, double s4,double s5,double s6,double s7,double s8)
+	{ 
+		name=a; usn=b; address=c; category=d; age=e;  
+		sg1=s1; sg2=s2; sg3=s3; sg4=s4; sg5=s5; sg6=s6; sg7=s7; sg8=s8;
+		
+		
+	}
+	
+	public String toString()
+	{
+		return name+"  "+usn+"  "+address+"  "+category+"   "+age+"    CGPA="+cgpa ;
+		  
+	}                                            
 }
 
-package ex3;
-
-public class Student {
-	String name;
-	String address,usn;
-	int age;
-	double marks;
-	Student(String name,String address,String usn,int age,double m)
+public class GUI1 implements ActionListener{
+	static JFrame f1=new JFrame("STUDENT INFO");
+	static JLabel label1=new JLabel("ENTER NAME");
+	static JLabel label2=new JLabel("ENTER USN");
+	static JLabel label3=new JLabel("ENTER ADDRESS");
+	static JLabel label4=new JLabel("ENTER CATEGORY");
+	static JLabel label5=new JLabel("ENTER AGE");
+	static JLabel label6=new JLabel("ENTER SGPA1");
+	static JLabel label7=new JLabel("ENTER SGPA2");
+	static JLabel label8=new JLabel("ENTER SGPA3");
+	static JLabel label9=new JLabel("ENTER SGPA4");
+	static JTextField tname=new JTextField(20);
+	static JTextField tusn=new JTextField(20);
+	static JTextField taddr=new JTextField(20);
+	static JTextField tcat=new JTextField(20);
+	static JTextField tage=new JTextField(10);
+	static JTextField sgpa1=new JTextField(5);
+	static JTextField sgpa2=new JTextField(5);
+	static JTextField sgpa3=new JTextField(5);
+	static JTextField sgpa4=new JTextField(5);
+	static JButton submit=new JButton("submit");
+	static JButton done=new JButton("done");
+	static JButton display=new JButton("display");
+	static ArrayList<STUDENT1> AA=new ArrayList<STUDENT1>();
+	public static void main(String[] args)
 	{
-	this.name=name;
-	this.age=age;
-	this.address=address;
-	this.usn=usn;
-	this.marks=m;
+		f1.setSize(900, 800);
+		f1.setLayout(new GridLayout(2,2));
+		f1.setVisible(true);
+		f1.add(label1);
+		f1.add(tname);
+		f1.add(label2);
+		f1.add(tusn);
+		f1.add(label3);
+		f1.add(taddr);
+		f1.add(label4);
+		f1.add(tcat);
+		f1.add(label5);
+		f1.add(tage);
+		f1.add(label6);
+		f1.add(sgpa1);
+		f1.add(label7);
+		f1.add(sgpa2);
+		f1.add(label8);
+		f1.add(sgpa3);
+		f1.add(label9);
+		f1.add(sgpa4);
+		f1.add(submit);
+		f1.add(done);
+		f1.add(display);
+		submit.addActionListener(new GUI1());	
+		done.addActionListener(new GUI1());
+		display.addActionListener(new GUI1());
+
+	}
+		
+	
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		
+		if(e.getSource()==submit)
+		{
+			int age=Integer.parseInt(tage.getText());
+			if(18>age||age>30)
+			{
+				System.out.println("invalide age");
+				String temp=JOptionPane.showInputDialog(null,"Enter valid age 18 to 30=");
+				tage.setText(temp);
+			}
+			else
+			{
+				System.out.println("valide age");
+				System.out.println("its working");
+			}
+			check(1,sgpa1);
+			check(2,sgpa2);
+			check(3,sgpa3);
+			check(4,sgpa4);
+			
+		}
+		else if(e.getSource()==done)
+		{
+
+			double s1=Double.parseDouble(sgpa1.getText());
+			double s2=Double.parseDouble(sgpa1.getText());
+			double s3=Double.parseDouble(sgpa1.getText());
+			double s4=Double.parseDouble(sgpa1.getText());
+			double cg=(s1+s2+s3+s4)/4;
+			STUDENT1 ob=new STUDENT1(tname.getText(),tusn.getText(),taddr.getText(),tcat.getText(),Integer.parseInt(tage.getText()),s1,s2,s3,s4,9.0,7.0,8.0,9.0);
+			ob.cgpa=cg;
+			
+			AA.add(ob);
+			
+		
+		}
+		else
+		{
+			
+			f1.setVisible(false);
+			JFrame f2=new JFrame("DISPLAY FRAME");
+			f2.setSize(500, 500);
+			f2.setVisible(true);
+			JTextArea info=new JTextArea(20,20);
+			f2.add(info);
+			for(STUDENT1 ob1:AA)
+			{
+				info.setText(ob1.toString());
+			}
+			
+			//System.out.println(".............perfect............");
+		}
+		
+		
+			
+		
+		// TODO Auto-generated method stub
+		
+	}
+	void check(int i,JTextField sgpa)
+	{
+		if(Double.parseDouble(sgpa.getText())>=10)
+		{
+			//System.out.println("sem "+i+"invalide SGPA");
+			String temp=JOptionPane.showInputDialog(null,"sem "+i+" Enter valid sgpa 0 to 10=");
+			sgpa.setText(temp);
+	
+		}
 	}
 
 }
