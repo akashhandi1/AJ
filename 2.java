@@ -1,113 +1,309 @@
-package ex2;
-
-public class Book 
+import java.util.*;
+class BOOK
 {
-	String title, author, publisher;
-	 Double price;
-	 
-	 Book(String t, String aut, String pub, Double pr) {
-	 title = t;
-	 author = aut;
-	 publisher = pub;
-	 price = pr;
-	 }
-	 
-	 public String toString() 
-	 {
-	 return "Book Details : Title " + title + "\n Author " + author + "\n" + " 	Publisher " + publisher + "\n" 	 + "price " + price;
-	 }
-
+    String title,author,publisher;
+    double price;
+    BOOK(String x, String y, String z,double p)
+    {
+        title=x;
+        author=y;
+        publisher=z;
+        price=p;
+    }
+    public String toString()
+    {
+        return title+"    "+author+"   "+publisher+"   "+price;
+    }
 }
 
-
-package ex2;
-import java.util.*;
-public class MainClass 
+class BookCompare implements Comparator<BOOK>
 {
-	public static void main(String args[]) 
+    public int compare(BOOK b1, BOOK b2)
+    {
+        if(b1.price>b2.price)
+        {
+            return 1;
+        }
+        else if(b1.price==b2.price)
+        {
+            return 0;
+        }
+        else
+        {
+            return -1;
+        }
+    }
+} 
+public class Main
+{
+	public static void main(String[] args) 
 	{
-		Scanner input=new Scanner(System.in);
-		ArrayList<Book> al = new ArrayList<Book>();
-		 al.add(new Book("Dbms basics", "auth1", "pub1", 12345.00));
-		 al.add(new Book("Dbms advanced", "auth1", "pub2", 22222.10));
-		 al.add(new Book("Java J2EE", "auth2", "pub1", 123.566));
-		 al.add(new Book("Machine Learning","auth3","pub3",567.56));
-		 ArrayList<Book> al1 = new ArrayList<Book>(al);
-		 Collections.sort(al1,new PriceCompare());
-		 System.out.println("***********Sorted Collection**********");
-		 for (Book b : al1) {
-		 System.out.println(b);
-		 }
-		 System.out.println("-----------");
-		 HashMap<Integer,Book> hm=new HashMap<Integer,Book>();
-		 int i=0;
-		 for(Book b:al1) {
-		 hm.put(i, b);
-		 i++;
-		 
-		 }
-		 Set<Map.Entry<Integer, Book>> set1=hm.entrySet();
-		 
-		 System.out.println("Enter author name");
-		 String name=input.next();
-		 for(Map.Entry<Integer, Book> setv:set1) {
-		 if(setv.getValue().author.equals(name)) {
-		 System.out.println(setv.getValue());
-		 }
-		 }
-		 
-		 System.out.println("Enter price");
-		 double amt=input.nextDouble();
-		 ArrayList<Book> ar=new ArrayList<Book>();
-		 for(Map.Entry<Integer, Book> setv:set1) {
-		 if(setv.getValue().price>amt) {
-		 ar.add(setv.getValue());
-		 }
-		 }
-		 
-		 for(Book b1:ar) {
-		 System.out.println(b1);
-		 }
-		 
-		 System.out.println("Enter title");
-		 String t=input.next();
-		 for(Map.Entry<Integer, Book> setv:set1) {
-		 if(setv.getValue().title.contains(t)) {
-		 System.out.println(setv.getValue());
-		 }
-		 }
-		 System.out.println("Enter Publisher"); String str=input.next();
-		 for(Map.Entry<Integer, Book> setv:set1) {
-		 if(setv.getValue().publisher.equals(str)) {
-		 System.out.println(setv.getValue());
-		 }
-		 }
-		 System.out.println("Enter title for which you want to update publisher");
-		 input.nextLine();
-		 String t1=input.nextLine();
-		 for(Map.Entry<Integer, Book> setv:set1) {
-		 if(setv.getValue().title.equals(t1)) {
-		 setv.getValue().publisher="New_one";
-		 hm.put(setv.getKey(),setv.getValue());
-		 
-		 }
-		 }
-		 for(Map.Entry<Integer, Book> setv:set1) {
-		 System.out.println(setv.getValue());
-		 }
-		 
+	    BOOK ob1= new BOOK("T1","A1","P1",780);
+	    BOOK ob2= new BOOK("T2","A2","P2",500);
+	    BOOK ob3= new BOOK("oops with java","A3","P3",800);
+	    BOOK ob4= new BOOK("T4","A1","P4",300);
+	    BOOK ob5= new BOOK("oops with c++","A4","P5",200);
+	    ArrayList <BOOK> Ar=new ArrayList<BOOK>();
+	    Ar.add(ob1);
+	    Ar.add(ob2);
+	    Ar.add(ob3);
+	    Ar.add(ob4);
+	    Ar.add(ob5);
+	    
+	    System.out.println(".Book List .");
+	    for(BOOK ob:Ar)
+	    {
+	        System.out.println(ob);
+	    }
+	    Collections.sort(Ar,new BookCompare());
+	    System.out.println(".Book List after sorted price list.");
+	    for(BOOK ob:Ar)
+	    {
+	        System.out.println(ob);
+	    }
+	    
+	    
+	    System.out.println("-Create a hashmap with unique book id-");
+	    HashMap<Integer,BOOK> hm=new HashMap<Integer,BOOK>();
+	    Integer i=101;
+	    for(BOOK ob:Ar)
+	    {
+	        hm.put(i,ob);
+	        i++;
+	    }
+	    for (Integer keyid : hm.keySet()) 
+	    {
+            System.out.print("keyId: " + keyid ) ;
+            System.out.println( "  " + hm.get(keyid));
+        }
+        System.out.println("-Search given author and display-");
+        Scanner read= new Scanner(System.in);
+        System.out.println("Enter author name: ");
+        String name=read.nextLine();
+		for(BOOK ob:Ar)
+		{
+		    if(name.equals(ob.author))
+		    {
+		        System.out.println(ob);
+		    }
 		}
+		System.out.println("-create new list <price more then user specified price>-");
+		LinkedList<BOOK> temp = new LinkedList<BOOK>();
+		//Scanner read= new Scanner(System.in);
+        System.out.println("Enter book price: ");
+        double rate=read.nextDouble();
+		for(BOOK ob:Ar)
+	    {
+	        if(ob.price>rate)
+	        {
+	            temp.add(ob);
+	            System.out.println(ob);
+	            
+	        }
+	    }
+	    System.out.println("--------------search publisher and update-------");
+		System.out.println("Enter book publisher name: ");
+		Scanner rd=new Scanner(System.in);
+        String pname=rd.nextLine();
+		for(BOOK ob:Ar)
+	    {   
+	        
+	        if(pname.equals(ob.publisher))
+		    {
+		        System.out.println(ob);
+		    }
+	    } 
+	    System.out.println("-all the books that match either the whole or a part of the book title-");
+	    
+	    Scanner sc=new Scanner(System.in);
+	    System.out.println("Enter intested area");
+	    String y=sc.nextLine();
+	    int flag=0;
+	    for(BOOK ob:Ar)
+	    {   
+	        if(ob.title.contains(y))
+            {   flag=1;
+                
+                System.out.println(ob);
+             }
+	        
+	    }
+	    if(flag==0)
+	    {
+	       System.out.println("title not matches "); 
+	    }
+	    System.out.println("-search title  and update publisher name-");
+		System.out.println("Enter book title name: ");
+		Scanner rd1=new Scanner(System.in);
+        String tname=rd1.nextLine();
+		for(BOOK ob:Ar)
+	    {   
+	        
+	        if(tname.equals(ob.title))
+		    {
+		        System.out.println(ob);
+		        System.out.println("enter new publisher name");
+		        String pname1=rd1.nextLine();
+		        ob.publisher=pname1;
+		        System.out.println(ob);
+		    }
+	    } 
+	    
+		
+	}
 }
 
-
-
-package ex2;
 import java.util.*;
-public class PriceCompare implements Comparator<Book>
+class BOOK
 {
-	public int compare(Book b1,Book b2) 
-	{
-		return(int)(b1.price-b2.price);
-	}
+    String title,author,publisher;
+    double price;
+    BOOK(String x, String y, String z,double p)
+    {
+        title=x;
+        author=y;
+        publisher=z;
+        price=p;
+    }
+    public String toString()
+    {
+        return title+"    "+author+"   "+publisher+"   "+price;
+    }
+}
 
+class BookCompare implements Comparator<BOOK>
+{
+    public int compare(BOOK b1, BOOK b2)
+    {
+        if(b1.price>b2.price)
+        {
+            return 1;
+        }
+        else if(b1.price==b2.price)
+        {
+            return 0;
+        }
+        else
+        {
+            return -1;
+        }
+    }
+} 
+public class Main
+{
+	public static void main(String[] args) 
+	{
+	    BOOK ob1= new BOOK("T1","A1","P1",780);
+	    BOOK ob2= new BOOK("T2","A2","P2",500);
+	    BOOK ob3= new BOOK("oops with java","A3","P3",800);
+	    BOOK ob4= new BOOK("T4","A1","P4",300);
+	    BOOK ob5= new BOOK("oops with c++","A4","P5",200);
+	    ArrayList <BOOK> Ar=new ArrayList<BOOK>();
+	    Ar.add(ob1);
+	    Ar.add(ob2);
+	    Ar.add(ob3);
+	    Ar.add(ob4);
+	    Ar.add(ob5);
+	    
+	    System.out.println(".Book List .");
+	    for(BOOK ob:Ar)
+	    {
+	        System.out.println(ob);
+	    }
+	    Collections.sort(Ar,new BookCompare());
+	    System.out.println(".Book List after sorted price list.");
+	    for(BOOK ob:Ar)
+	    {
+	        System.out.println(ob);
+	    }
+	    
+	    
+	    System.out.println("--Create a hashmap with unique book id--");
+	    HashMap<Integer,BOOK> hm=new HashMap<Integer,BOOK>();
+	    Integer i=101;
+	    for(BOOK ob:Ar)
+	    {
+	        hm.put(i,ob);
+	        i++;
+	    }
+	    for (Integer keyid : hm.keySet()) 
+	    {
+            System.out.print("keyId: " + keyid ) ;
+            System.out.println( "  " + hm.get(keyid));
+        }
+        System.out.println("-Search given author and display-");
+        Scanner read= new Scanner(System.in);
+        System.out.println("Enter author name: ");
+        String name=read.nextLine();
+		for(BOOK ob:Ar)
+		{
+		    if(name.equals(ob.author))
+		    {
+		        System.out.println(ob);
+		    }
+		}
+		System.out.println("-create new list <price more then user specified price>-");
+		LinkedList<BOOK> temp = new LinkedList<BOOK>();
+		//Scanner read= new Scanner(System.in);
+        System.out.println("Enter book price: ");
+        double rate=read.nextDouble();
+		for(BOOK ob:Ar)
+	    {
+	        if(ob.price>rate)
+	        {
+	            temp.add(ob);
+	            System.out.println(ob);
+	            
+	        }
+	    }
+	    System.out.println("-search publisher and update-");
+		System.out.println("Enter book publisher name: ");
+		Scanner rd=new Scanner(System.in);
+        String pname=rd.nextLine();
+		for(BOOK ob:Ar)
+	    {   
+	        
+	        if(pname.equals(ob.publisher))
+		    {
+		        System.out.println(ob);
+		    }
+	    } 
+	    System.out.println("-all the books that match either the whole or a part of the book title-");
+	    
+	    Scanner sc=new Scanner(System.in);
+	    System.out.println("Enter intested area");
+	    String y=sc.nextLine();
+	    int flag=0;
+	    for(BOOK ob:Ar)
+	    {   
+	        if(ob.title.contains(y))
+            {   flag=1;
+                
+                System.out.println(ob);
+             }
+	        
+	    }
+	    if(flag==0)
+	    {
+	       System.out.println("title not matches "); 
+	    }
+	    System.out.println("-search title  and update publisher name-");
+		System.out.println("Enter book title name: ");
+		Scanner rd1=new Scanner(System.in);
+        	String tname=rd1.nextLine();
+		for(BOOK ob:Ar)
+	    {   
+	        
+	        if(tname.equals(ob.title))
+		    {
+		        System.out.println(ob);
+		        System.out.println("enter new publisher name");
+		        String pname1=rd1.nextLine();
+		        ob.publisher=pname1;
+		        System.out.println(ob);
+		    }
+	    } 
+	    
+		
+	}
 }
