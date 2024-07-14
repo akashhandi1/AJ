@@ -1,108 +1,109 @@
-package exp4;
-
-public class Item {
-	String name,id;int price;
-	Item(String name,String id,int price){
-	this.name=name;
-	this.id=id;
-	this.price=price;
-	}
-	public String toString() {
-	return("ItemName "+name+" ItemId: "+id+" ItemPrice : "+price);
-	}
-
-}
-
-
-
-package exp4;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.HashMap;
-import java.util.*;
-public class Shop implements ActionListener{
-	String user="user1";String pass="1234";
-	String un="";String pw;int id;
-	JTextField userid,phno,Itemid,quan,name;
-	JButton submit;
-	double total=0.0;
-	static HashMap<Long,Integer>users=new HashMap<Long,Integer>();
-	static ArrayList<Item> it=new ArrayList<Item>();
-	Shop(){
-	while(!un.equals(user)|| !pw.equals(pass)) {
-	un=JOptionPane.showInputDialog(null,"Enter username");
-	if(!un.equals(user)) {
-	JOptionPane.showMessageDialog(null, "Invalid user");
+
+import javax.swing.*;
+
+public class MARKET implements ActionListener {	
+	JLabel label1= new JLabel("Customer Phone ");
+	JTextField phone=new JTextField(10);
+	JLabel label2= new JLabel("Enter customer id");
+	JTextField cid=new JTextField(10);
+	JButton check=new JButton("Check cid ");
+	JLabel label3= new JLabel("#1  APPLE 150rs/Kg   #2 Orange 60rs/kg");
+	JLabel label4= new JLabel("Enter item Number u to purchase ");
+	JTextField item_no= new JTextField(5);
+	JLabel label5= new JLabel("Quantity kg ");
+	JTextField kg= new JTextField(5);
+	JRadioButton rb1=new JRadioButton("Discount 30%");
+	JButton Bill=new JButton("Bill");
+	JTextField am=new JTextField(20);
+	HashMap<String,Integer> hm=new HashMap<String,Integer>();
+	HashMap<Integer,Double>	item= new HashMap<Integer,Double>();
+	void add_coll()
+	{
+		hm.put("9741278570",121);
+		hm.put("9900726035",122);
+		hm.put("9900001111",123);
 	}
-	else {
-	if(un.equals(user)) {
-	pw=JOptionPane.showInputDialog(null,"Enter 	password");
-	if(pw.equals(pass)) {
-	break;
+	void add_item()
+	{
+		item.put(1,150.0);
+		item.put(2,60.0);
+		//hm.put("BANANA",40);
 	}
-	else {
-	JOptionPane.showMessageDialog(null, "Invalid 	pass");
-	} }	}
+	MARKET()
+	{
+		JFrame f1=new JFrame("CUSTOMER INFORMATION");
+		String uname=JOptionPane.showInputDialog(null,"Enter USERNAME=");
+		String psw=JOptionPane.showInputDialog(null,"Enter PASSWORD=");
+		add_coll();
+		add_item();
+		if(uname.equals("msrit123")&& psw.equals("ise123"))
+		{
+			
+			JOptionPane.showMessageDialog(null, "LOGIN VALID");
+			f1.setSize(200,200);
+			f1.setVisible(true);
+			f1.setLayout(new FlowLayout());
+			f1.add(label1);
+			f1.add(phone);
+			f1.add(check);
+			f1.add(label2);
+			f1.add(cid);
+			check.addActionListener(this);
+			f1.add(label3);
+			f1.add(label4);
+			f1.add(item_no);
+			f1.add(label5);
+			f1.add(kg);
+			f1.add(rb1);
+			f1.add(Bill);
+			Bill.addActionListener(this);
+			f1.add(am);
+			
+			
+						
+		}
+		else
+		{
+			JOptionPane.showMessageDialog(null, "LOGIN INVALID");
+		}
+		
 	}
-	long ph=Long.parseLong(JOptionPane.showInputDialog(null,"Enter 	phno"));
-	if(users.containsKey(ph)) {
-	id=users.get(ph);
-	JOptionPane.showMessageDialog(null, "Welcome"+id);
+
+	public static void main(String[] args) {
+		MARKET ob=new MARKET();	
+
 	}
-	else {
-	id=Integer.parseInt(JOptionPane.showInputDialog(null,"New 	user,Enter new id"));
-	users.put(ph,id);
-	}
-	JFrame frm=new JFrame("Details");
-	JLabel name1=new JLabel("User");
-	JLabel ph1=new JLabel("Pn");
-	JLabel id1=new JLabel("Itemid");
-	JLabel q1=new JLabel("Quant");
-	JLabel n1=new JLabel("It_name");
-	userid=new JTextField(20);
-	phno=new JTextField(20);
-	Itemid=new JTextField(20);
-	quan=new JTextField(20);
-	name=new JTextField(20);
-	submit=new JButton("Submit");
-	frm.add(name1);frm.add(userid);
-	userid.setText(String.valueOf(id));
-	userid.setEditable(false);
-	frm.add(ph1);frm.add(phno);
-	phno.setText(String.valueOf(ph));
-	frm.add(id1);frm.add(Itemid);
-	frm.add(q1);frm.add(quan);
-	frm.add(n1);frm.add(name);
-	frm.add(submit);
-	submit.addActionListener(this);
-	frm.setSize(300,300);
-	frm.setVisible(true);
-	frm.setLayout(new GridLayout(6,2));
-}
+	@Override
 	public void actionPerformed(ActionEvent e) 
 	{
-		String itid=Itemid.getText();
-		int itq=Integer.parseInt(quan.getText());
-		String itna=name.getText();
-		String discounts[]= {"5","10","15"};
-		int r=JOptionPane.showOptionDialog(null, "select disc","Disc",
-		JOptionPane.DEFAULT_OPTION,JOptionPane.QUESTION_MESSAGE,
-		null,discounts,discounts[0]);
-		for(Item ii :it) {
-		if(ii.id.equals(itid)) {
-		total=itq*ii.price;
+		if(e.getSource()==check)
+		{
+			String p1=phone.getText();
+			if(hm.containsKey(p1))
+			{
+				JOptionPane.showMessageDialog(null, "UR OLD CUSTEMER ID"+hm.get(p1));
+				cid.setText(Integer.toString(hm.get(p1)));
+			}
+			else
+			{
+				hm.put(p1,124);
+				JOptionPane.showMessageDialog(null, "NEW CUSTOMER new id="+"124");
+				cid.setText(Integer.toString(hm.get(p1)));
+			}
 		}
-		} 
-		total=total-(total*0.01*Integer.parseInt(discounts[r]));
-		String t=String.valueOf(total);
-		JOptionPane.showMessageDialog(null,"Total for "+itna+" is"+t);
+		else
+		{
+			double amount=150- 150*0.30;
+			am.setText("after discount="+amount);
+			
+		}
+		
+		
+		
 	}
-	public static void main(String[] args)
-	{
-		it.add(new Item("Bat","1",5000));
-		it.add(new Item("Gloves","2",2000));
-		it.add(new Item("Ball","3",600));
-		Shop obj=new Shop();
-	}
+
 }
